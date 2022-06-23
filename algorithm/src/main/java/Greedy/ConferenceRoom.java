@@ -16,11 +16,18 @@ class ConferenceRoom {
         {
             @Override
             public int compare(int[] o1, int[] o2) {
+                int a;
                 if(o1[1] == o2[1]) {
-                    return o1[0] - o2[0];
+                    a= o1[0] - o2[0];
                 }else {
-                    return o1[1] - o2[1];
+                    a= o1[1] - o2[1];
                 }
+                for(int i =0 ; i<nums; i++){
+                    System.out.print(times[i][0]+" ");
+                    System.out.println(times[i][1]);
+                }
+                System.out.println("-----------------");
+                return  a;
             }
         });
         int answer =0;
