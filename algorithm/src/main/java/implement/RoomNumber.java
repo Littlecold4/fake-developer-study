@@ -22,7 +22,7 @@ public class RoomNumber {
             }
         }
         float maxValue = Collections.max(map.values());
-        System.out.println(Math.round(maxValue));
+        System.out.println(Math.ceil(maxValue));
     }
 }
 
