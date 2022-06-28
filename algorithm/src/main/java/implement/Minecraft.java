@@ -26,12 +26,11 @@ public class Minecraft {
                 }
             }
         }
-//        System.out.println(Arrays.deepToString(map));
-//        int min=findMin(column, row, map);
-//        System.out.println("min = " + min);
-//        int max = findMax(column,row,map);
-//        System.out.println("max = " + max);
 
+        if(max==min){
+            System.out.println(0+" "+max);
+            return;
+        }
         int minTime=2147483647;
         int height = 0;
         int nowInventory;
@@ -40,16 +39,17 @@ public class Minecraft {
             nowInventory=inventory;
             for(int j=0; j<row; j++){
                 for(int k=0; k<column; k++){
-                    if(i<map[k][j]){
-                        time +=2*(map[k][j]-i);
-                        nowInventory +=map[k][j]-i;
-                    }else if(i>map[k][j]){
-                        time += (i-map[k][j]);
-                        nowInventory +=map[k][j]-i;
+                    int x = map[k][j];
+                    if(i<x){
+                        time +=2*(x-i);
+                        nowInventory +=x-i;
+                    }else if(i>x){
+                        time += (i-x);
+                        nowInventory +=x-i;
                     }
                 }
             }
-            if(minTime>time&&nowInventory>=0){
+            if(minTime>=time&&nowInventory>=0){
                 minTime=time;
                 height= i;
             }
