@@ -30,7 +30,6 @@ public class Congressman {
             answer++;
         }
         System.out.println(answer);
-//        Queue<Integer> queue = new LinkedList<>();
 //        for(int i=0; i<num; i++){
 //            queue.offer(Integer.parseInt(br.readLine()));
 //        }
