@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class GroupWordCheck {
     public static void main(String[] args) throws IOException {
@@ -12,20 +13,20 @@ public class GroupWordCheck {
         int answer=0;
         char prevLetter;
         String word;
-        HashMap<Character,Boolean> map = new HashMap<>();
+        HashSet<Character> set = new HashSet<>();
         for(int i =0 ; i<num; i++){
             answer++;
-            map.clear();
+            set.clear();
             word = br.readLine();
             prevLetter=word.charAt(0);
             for(int j=0; j<word.length(); j++){
-                if(map.containsKey(word.charAt(j))){
+                if(set.contains(word.charAt(j))){
                     if(prevLetter!=word.charAt(j)) {
                         answer--;
                         break;
                     }
                 }
-                map.put(word.charAt(j),true);
+                set.add(word.charAt(j));
                 prevLetter=word.charAt(j);
             }
         }
