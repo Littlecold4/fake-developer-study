@@ -21,8 +21,8 @@ public class Zero {
             }
         }
         int answer=0;
-        for(int i=0; i<num-2*zeros; i++){
-            answer+=stack.pop();
+        while(!stack.isEmpty()){
+            answer += stack.pop();
         }
         System.out.println(answer);
     }

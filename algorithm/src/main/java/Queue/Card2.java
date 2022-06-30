@@ -12,15 +12,16 @@ public class Card2 {
         int num = Integer.parseInt(br.readLine());
         Queue<Integer> queue = new LinkedList<>();
         for(int i=1; i<=num; i++){
-            queue.add(i);
+            queue.offer(i);
         }
         while(true){
-            queue.remove();
+            queue.poll();
             if(queue.size()==1){
                 System.out.println(queue.poll());
                 break;
             }
             queue.add(queue.poll());
         }
+        br.close();
     }
 }
