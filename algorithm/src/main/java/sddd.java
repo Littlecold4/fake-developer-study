@@ -9,6 +9,7 @@ public class sddd {
 
         int n = Integer.parseInt(br.readLine());
         int me = Integer.parseInt(br.readLine());
+        int me = Integer.parseInt(br.readLine());
         int cnt = 0;
 
         // 내림차순 정렬
