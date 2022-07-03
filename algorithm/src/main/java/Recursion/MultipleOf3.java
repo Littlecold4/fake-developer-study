@@ -17,7 +17,7 @@ public class MultipleOf3 {
 //        else sb.append("NO");
         if(Integer.parseInt(result[0])%3==0) System.out.println("YES");
         else System.out.println("NO");
-//        System.out.println(sb);
+        System.out.println(sb);
     }
     private static String[] plusNumber(String num,String cnt){
         int sum=0;
