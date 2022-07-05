@@ -25,7 +25,6 @@ public class Game {
             mid = (start+end)/2;
 
             long afterZ= (long)Math.floor((Y+mid)*100/(X+mid));
-            System.out.println("afterZ = "+afterZ);
             if(afterZ>=nowZ+1){
                 end = mid-1;
             }else {
