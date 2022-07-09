@@ -17,7 +17,7 @@ public class Game {
         long mid=0;
         long nowZ= (long)Math.floor(100*Y/X);
         long start = 0;
-        long end =2000000000;
+        long end =2_000_000_000;
         if(nowZ>=99){
             return -1;
         }
