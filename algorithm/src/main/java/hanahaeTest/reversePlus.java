@@ -7,7 +7,9 @@ public class reversePlus {
         int sum = 0;
         for(int i=num.length()-1; i>=0; i--) {
             sum += num.charAt(i)-'0';
-            answer += num.charAt(i) +"+";
+            answer += num.charAt(i) ;
+            if(i!=0) answer+="+";
+            else answer += "=";
         }
         answer +=String.valueOf(sum);
         return answer;
