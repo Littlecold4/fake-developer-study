@@ -21,8 +21,7 @@ public class Virus {
         }
         Queue<Integer> queue = new LinkedList<>();
         queue.add(1);
-        while (true) {
-            if(queue.size()==0) break;
+        while (queue.size()!=0) {
             int temp = queue.poll();
             for (int i = 0; i < nums; i++) {
                 if (coms[i][0] == temp && !set.contains(coms[i][1])) {
