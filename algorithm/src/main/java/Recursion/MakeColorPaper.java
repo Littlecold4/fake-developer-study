@@ -32,7 +32,7 @@ public class MakeColorPaper {
                 else break loop;
             }
         }
-        if(Num ==Math.pow(2,N)){
+        if(Num ==Math.pow(N,2)){
             answer++;
             return answer;
         }
@@ -59,7 +59,7 @@ public class MakeColorPaper {
                 else break loop;
             }
         }
-        if(Num ==Math.pow(2,N)){
+        if(Num ==Math.pow(N,2)){
             answer++;
             return answer;
         }
