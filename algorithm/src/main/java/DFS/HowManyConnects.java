@@ -27,6 +27,7 @@ public class HowManyConnects {
             int y = Integer.parseInt(XnYStr[1]);
 
             arr[x-1][y-1] = 1;
+            arr[y-1][x-1] = 1;
         }
 
         for(int i=0; i<N; i++){
@@ -43,6 +44,7 @@ public class HowManyConnects {
         for(int i=0; i<N; i++){
             if(arr[start][i] == 1){
                 arr[start][i]=0;
+                arr[i][start]=0;
                 DFS(arr,i,N);
             }
         }
