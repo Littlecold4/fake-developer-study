@@ -8,21 +8,19 @@ public class ContinuousSum {
         BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
         String[] NumStr = br.readLine().split(" ");
+
         int[] Num = new int[n];
-        int[] dpSum = new int[n];
         int[] dp = new int[n];
         for(int i =0; i<n; i++){
             Num[i] = Integer.parseInt(NumStr[i]);
         }
+        dp[0] = Num[0];
 
-        for(int i=0; i<n; i++){
-            dpSum[i] = Num[i];
-            dp[i] = Num[i];
-            for(int j=i+1 ; j<n;j++){
-                dp[j] = dp[j-1] +Num[j];
-                if(dp[j]>dpSum[i]) dpSum[i] = dp[j];
-            }
+        for(int i=1; i<n; i++){
+            if(dp[i-1]+Num[i]>Num[i]) dp[i] = dp[i-1] + Num[i];
+            else dp[i] = Num[i];
         }
-        System.out.println(Arrays.stream(dpSum).max().getAsInt());
+
+        System.out.println(Arrays.stream(dp).max().getAsInt());
     }
 }
