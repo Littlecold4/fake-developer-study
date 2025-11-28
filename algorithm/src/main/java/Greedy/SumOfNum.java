@@ -14,6 +14,5 @@ public class SumOfNum {
             i++;
         }
         System.out.println(i-2);
-
     }
 }
