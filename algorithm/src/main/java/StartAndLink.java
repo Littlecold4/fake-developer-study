@@ -48,9 +48,9 @@ public class StartAndLink {
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (visited[i] == true && visited[j] == true) {
+                if (visited[i] && visited[j]) {
                     startTeamScore += S[i][j];
-                } else if (visited[i] == false && visited[j] == false) {
+                } else if (!visited[i] && !visited[j]) {
                     linkTeamScore += S[i][j];
                 }
             }
