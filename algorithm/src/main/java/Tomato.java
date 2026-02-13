@@ -1,83 +1,79 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class Tomato {
-    static int M;
-    static int N;
+    static int M, N;
     static int[][] tomatoes;
+    // 상하좌우 이동을 위한 좌표 배열
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] MnNStr = br.readLine().split(" ");
-        M = Integer.parseInt(MnNStr[0]);
-        N = Integer.parseInt(MnNStr[1]);
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        M = Integer.parseInt(st.nextToken());
+        N = Integer.parseInt(st.nextToken());
 
         tomatoes = new int[N][M];
+        Queue<int[]> queue = new LinkedList<>();
+        int unripeCount = 0; // 안 익은 토마토 개수 카운트
 
         for (int i = 0; i < N; i++) {
-            String[] input = br.readLine().split(" ");
+            st = new StringTokenizer(br.readLine());
             for (int j = 0; j < M; j++) {
-                tomatoes[i][j] = Integer.parseInt(input[j]);
+                tomatoes[i][j] = Integer.parseInt(st.nextToken());
+                if (tomatoes[i][j] == 1) {
+                    // 익은 토마토의 좌표를 큐에 미리 다 넣어둠
+                    queue.add(new int[]{i, j});
+                } else if (tomatoes[i][j] == 0) {
+                    unripeCount++;
+                }
             }
         }
 
-        // 처음에 이미 다 익어있는지 확인
-        if (check()) {
-            System.out.println("0");
+        // 처음부터 다 익어있었다면 0 출력
+        if (unripeCount == 0) {
+            System.out.println(0);
             return;
         }
 
-        int answer = 0;
-
-        while (true) {
-            boolean changed = false;
-
-            // 1. 이번 루프(하루)에서 새롭게 익을 토마토 찾기
-            // 원래 익어있던 '1' 주변의 '0'을 찾아 '2'로 임시 변경합니다.
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < M; j++) {
-                    if (tomatoes[i][j] == 1) {
-                        // 상하좌우 탐색 (0인 것만 2로 바꿈)
-                        if (i > 0 && tomatoes[i - 1][j] == 0) { tomatoes[i - 1][j] = 2; changed = true; }
-                        if (i < N - 1 && tomatoes[i + 1][j] == 0) { tomatoes[i + 1][j] = 2; changed = true; }
-                        if (j > 0 && tomatoes[i][j - 1] == 0) { tomatoes[i][j - 1] = 2; changed = true; }
-                        if (j < M - 1 && tomatoes[i][j + 1] == 0) { tomatoes[i][j + 1] = 2; changed = true; }
-                    }
-                }
-            }
-
-            // 2. 변화가 없다면(더 이상 익을 토마토가 없다면) 중단
-            if (!changed) {
-                // 루프가 끝났는데도 안 익은 토마토(0)가 남아있다면 -1, 아니면 정답 출력
-                if (!check()) {
-                    System.out.println("-1");
-                } else {
-                    System.out.println(answer);
-                }
-                break;
-            }
-
-            for (int i = 0; i < N; i++) {
-                for (int j = 0; j < M; j++) {
-                    if (tomatoes[i][j] == 2) {
-                        tomatoes[i][j] = 1;
-                    }
-                }
-            }
-
-            answer++;
-        }
+        System.out.println(solve(queue, unripeCount));
     }
 
-    static boolean check() {
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < M; j++) {
-                if (tomatoes[i][j] == 0) {
-                    return false;
+    static int solve(Queue<int[]> queue, int unripeCount) {
+        int days = 0;
+
+        while (!queue.isEmpty()) {
+            // 현재 큐에 들어있는 개수만큼이 '오늘' 동시에 퍼지는 토마토들임
+            int size = queue.size();
+            boolean spread = false;
+
+            for (int s = 0; s < size; s++) {
+                int[] curr = queue.poll();
+
+                for (int i = 0; i < 4; i++) {
+                    int nr = curr[0] + dr[i];
+                    int nc = curr[1] + dc[i];
+
+                    // 범위 내에 있고 안 익은 토마토(0)라면
+                    if (nr >= 0 && nr < N && nc >= 0 && nc < M && tomatoes[nr][nc] == 0) {
+                        tomatoes[nr][nc] = 1; // 익히기
+                        unripeCount--; // 남은 개수 감소
+                        queue.add(new int[]{nr, nc}); // 내일 주변을 익히기 위해 큐에 추가
+                        spread = true;
+                    }
                 }
             }
+
+            if (spread) days++; // 이번 턴에 하나라도 익었다면 하루 증가
         }
-        return true;
+
+        // 큐가 비었는데 안 익은 게 남았다면 다 익지 못하는 상황임
+        return unripeCount == 0 ? days : -1;
     }
 }
