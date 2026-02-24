@@ -1,53 +1,64 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class ExploreMaze {
     static int[][] maze;
     static int N, M;
-    static int answer;
+    // 상하좌우 이동을 위한 배열
+    static int[] dn = {-1, 1, 0, 0};
+    static int[] dm = {0, 0, -1, 1};
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] NnMStr = br.readLine().split(" ");
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-         N = Integer.parseInt(NnMStr[0]);
-         M = Integer.parseInt(NnMStr[1]);
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
         maze = new int[N][M];
-        boolean[][] visit = new boolean[N][M];
 
-        for(int n=0;n<N; n++){
-            String[] inputStr = br.readLine().split("");
-            for(int m=0; m<M; m++){
-                maze[n][m] = Integer.parseInt(inputStr[m]);
+        for (int n = 0; n < N; n++) {
+            String input = br.readLine();
+            for (int m = 0; m < M; m++) {
+                maze[n][m] = input.charAt(m) - '0';
             }
         }
-        answer = Integer.MAX_VALUE;
-        dfs(visit,1,0,0);
 
-        System.out.println(answer);
+        System.out.println(bfs(0, 0));
     }
-    private static void dfs(boolean[][] visit,int deep,int n,int m){
 
-        if (n==N-1 && m ==M-1) {
-            if (answer >deep) answer = deep;
-            System.out.println("도착!");
-            return;
+    private static int bfs(int startN, int startM) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{startN, startM});
+
+        // 방문 체크를 겸해 이동 거리를 저장 (원본 배열 수정 방식)
+        while (!queue.isEmpty()) {
+            int[] current = queue.poll();
+            int currN = current[0];
+            int currM = current[1];
+
+            // 도착지점 도달 시 거리 반환
+            if (currN == N - 1 && currM == M - 1) {
+                return maze[currN][currM];
+            }
+
+            for (int i = 0; i < 4; i++) {
+                int nextN = currN + dn[i];
+                int nextM = currM + dm[i];
+
+                // 범위를 벗어나지 않고, 길(1)인 경우에만 이동
+                if (nextN >= 0 && nextN < N && nextM >= 0 && nextM < M) {
+                    if (maze[nextN][nextM] == 1) {
+                        // 현재 거리 + 1을 다음 칸에 저장 (방문 처리 겸용)
+                        maze[nextN][nextM] = maze[currN][currM] + 1;
+                        queue.add(new int[]{nextN, nextM});
+                    }
+                }
+            }
         }
-        if(visit[n][m] || maze[n][m]!=1) return;
-
-        System.out.println("n = " + n);
-        System.out.println("m = " + m);
-        System.out.println("deep = " + deep);
-
-        deep++;
-        visit[n][m] = true;
-        if(n!=0)
-            dfs(visit, deep, n-1, m);
-        if(m!=0)
-            dfs(visit, deep, n, m-1);
-        if(n!=N-1)
-            dfs(visit, deep, n+1, m);
-        if(m!=M-1)
-            dfs(visit, deep, n, m+1);
+        return -1; // 경로가 없는 경우
     }
 }
